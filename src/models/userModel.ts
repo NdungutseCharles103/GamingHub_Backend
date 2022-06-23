@@ -19,6 +19,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    savedGames: {
+        type: Array,
+        default: []
+    },
     createdAt: {
         type: Date,
         default: Date.now

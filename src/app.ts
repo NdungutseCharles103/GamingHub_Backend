@@ -2,8 +2,8 @@ import dotenv from 'dotenv';
 import express, { NextFunction, Request, Response } from 'express';
 import MasterRouter from './routes/MasterRouter';
 import ErrorHandler from './middlewares/ErrorHandler';
-import dbConnect from './middlewares/dbConnection';
 import bodyParser from 'body-parser';
+import mongoose, { ConnectOptions } from 'mongoose';
 
 dotenv.config({
     path: '.env'
@@ -43,9 +43,16 @@ server.app.get('/', (_req: Request, res: Response) => {
 }
 );
 
-(async(port = process.env.PORT || 5000, db = process.env.DB || 'unknown') => {
-   const res: any =  await dbConnect(db)
-   server.app.listen(port, ()=>console.log(`> Listening on  http://localhost:${port}`));
- 
-    
+((port = process.env.PORT || 5000, db = process.env.DB || 'unknown') => {
+mongoose
+  .connect(db, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  } as ConnectOptions)
+  .then(() =>
+  server.app.listen(port, () =>
+      console.log(`Server Running on Port: http://localhost:${port}`)
+    )
+  )
+  .catch((error) => console.log(`${error} did not connect`));
 })();
