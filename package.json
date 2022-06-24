@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/app.ts",
-    "start": "nodemon dist/app.js",
+    "start": "node dist/app.js",
     "postinstall": "tsc",
-    "watch-node": "nodemon dist/app.js",
+    "watch-node": "node dist/app.js",
     "watch-ts": "tsc -w",
     "deploy": "git add . && git commit -m Heroku && git push heroku HEAD:master",
     "open": "heroku open"
