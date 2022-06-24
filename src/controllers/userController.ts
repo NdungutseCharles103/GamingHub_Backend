@@ -23,6 +23,7 @@ class userController {
     }
 
     async createUser(req: Request, res: Response, next: NextFunction) {
+        console.log(req.body);
         const { name, username, email, password } = req.body
         const newUser = new User({ name, username, email, password })
 

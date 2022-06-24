@@ -4,6 +4,7 @@ import MasterRouter from './routes/MasterRouter';
 import ErrorHandler from './middlewares/ErrorHandler';
 import bodyParser from 'body-parser';
 import mongoose, { ConnectOptions } from 'mongoose';
+import cors from 'cors';
 
 dotenv.config({
     path: '.env'
@@ -17,6 +18,10 @@ class Server {
 
 const server = new Server();
 server.app.use(bodyParser.json());
+server.app.use(cors({
+    origin: '*',
+    methods: 'GET,POST,PUT,DELETE',
+}));
 
 server.app.use((err: ErrorHandler, _req: Request, res: Response, _next: NextFunction) => {
     if (err instanceof ErrorHandler) {
