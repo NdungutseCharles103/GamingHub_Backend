@@ -22,6 +22,7 @@ server.app.use(bodyParser.json());
 server.app.use(cors({
     origin: '*',
     methods: 'GET,POST,PUT,DELETE',
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin', 'Access-Control-Allow-Origin', 'Access-Control-Allow-Headers', 'Access-Control-Allow-Methods', 'Access-Control-Allow-Credentials'],
 }));
 
 server.app.use((err: ErrorHandler, _req: Request, res: Response, _next: NextFunction) => {
