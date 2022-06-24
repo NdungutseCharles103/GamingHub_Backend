@@ -24,9 +24,21 @@ class userController {
 
     async createUser(req: Request, res: Response, next: NextFunction) {
         console.log(req.body);
-        const { name, username, email, password } = req.body
-        const newUser = new User({ name, username, email, password })
+        const { name, email, password } = req.body
+        const newUser = new User({ name,  email, password })
 
+        try {
+            const savedUser = await newUser.save();
+            res.status(201).json(savedUser);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async registerWithGoogle(req: Request, res: Response, next: NextFunction) {
+        console.log(req.body);
+        const { name, email, profilePicture } = req.body;
+        const newUser = new User({ name, email, profilePicture });
         try {
             const savedUser = await newUser.save();
             res.status(201).json(savedUser);
@@ -64,7 +76,7 @@ class userController {
                 throw new ErrorHandler(401, "Invalid password");
             }
             const token = ((secret = process.env.JWT_SECRET || 'unknown') => {
-                jwt.sign({ id: user._id, email: user.email, username: user.username, name: user.name },
+                jwt.sign({ id: user._id, email: user.email, name: user.name },
                     secret, { expiresIn: "3d" });
             })();
 
