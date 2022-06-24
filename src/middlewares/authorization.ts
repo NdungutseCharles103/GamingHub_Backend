@@ -6,7 +6,9 @@ import ErrorHandler from "./ErrorHandler";
     public async verifyToken(req: any, _res: Response, next: NextFunction) {
         const token = req.headers.authorization;
         if (!token) {
-            throw new ErrorHandler(401, "No token provided");
+            // throw new ErrorHandler(401, "No token provided");
+            // next(new ErrorHandler(401, "No token provided"));
+            _res.status(401).json({ message: "No token provided" });
         }
         try {
             const decoded = ((secret = process.env.JWT_SECRET || 'unknown') => {

@@ -1,12 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
 import ErrorHandler from '../middlewares/ErrorHandler';
 import Post from '../models/postModel';
-import Authorization from '../middlewares/authorization';
 
 class PostController {
-    private _auth = Authorization.verifyToken;
 
-    async create(req: Request, _auth: NextFunction, res: Response) {
+    async create(req: Request, res: Response) {
         const post = new Post(req.body);
         try {
             const savedPost = await post.save();
@@ -16,12 +14,14 @@ class PostController {
         }
     }
 
-    async getAll(_req: Request, res: Response) {
+    async getAll(_req: Request, res: Response, next: NextFunction) {
         try {
             const posts = await Post.find();
             res.status(200).json(posts);
         } catch (error) {
-            console.log(error);
+            // console.log(error);
+            // throw new ErrorHandler(500, "Internal server error");
+            next(error);
         }
     }
 
