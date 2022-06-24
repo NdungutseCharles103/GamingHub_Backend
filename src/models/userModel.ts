@@ -7,7 +7,6 @@ const UserSchema = new mongoose.Schema({
     },
     username: {
         type: String,
-        required: true,
         unique: true
     },
     email: {
@@ -19,9 +18,17 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    profilePicture:{
+        type: String,
+        default: 'https://cdn-icons.flaticon.com/png/512/552/premium/552909.png?token=exp=1656011523~hmac=d27c22eae779fdba949f3a8433f6fbcc'
+    },
     savedGames: {
         type: Array,
         default: []
+    },
+    ownGames:{
+        type: Number,
+        default: 0
     },
     createdAt: {
         type: Date,
