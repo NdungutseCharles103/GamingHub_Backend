@@ -85,12 +85,12 @@ class userController {
             next(error);
         }
     }
-    
+
     async loginGoogle(req: Request, res: Response, next: NextFunction) {
         try {
             const user = await User.findOne({ email: req.body.email });
             if (!user) {
-                throw new ErrorHandler(401, "User not found");
+                res.status(401).json({ message: "User not found" });
             }
             res.status(200).json({ message: "Login success" });
         } catch (error) {
