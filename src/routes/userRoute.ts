@@ -19,7 +19,9 @@ class userRouter {
         this._router.get('/', this._auth, this._controller.getUsers);
         this._router.get('/:id', this._auth, this._controller.getUser);
         this.router.post('/newUser/google', this._controller.registerWithGoogle);
+        this.router.post('/login/google', this._controller.loginGoogle);
         this._router.post('/newUser', this._controller.createUser);
+        this._router.post('/login', this._controller.login);
         this._router.put('/:id', this._auth, this._controller.updateUser);
         this._router.delete('/:id', this._auth, this._controller.deleteUser);
     }

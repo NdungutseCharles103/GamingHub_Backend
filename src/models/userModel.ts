@@ -22,6 +22,10 @@ const UserSchema = new mongoose.Schema({
         type: Array,
         default: []
     },
+    googleId: {
+        type: String,
+        default: ''
+    },
     ownGames:{
         type: Number,
         default: 0

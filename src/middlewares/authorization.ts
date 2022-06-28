@@ -20,8 +20,8 @@ const client = new OAuth2Client(process.env.CLIENT_ID);
                     audience: process.env.CLIENT_ID,
                 });
                 const payload: TokenPayload | any = ticket.getPayload();
-                const userid = payload["sub"];
-                const user = await User.findOne({ googleId: userid });
+                const useremail = payload["email"];
+                const user = await User.findOne({ email: useremail });
                 if (!user) {
                     _res.status(403).json({ message: "No token provided" });
                 }
