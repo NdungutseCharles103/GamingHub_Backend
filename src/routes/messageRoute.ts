@@ -22,3 +22,5 @@ class messageRoute {
         this._router.get('/room/:room', this._messageController.getMessagesByRoom);
     }
 }
+
+export default new messageRoute().router;

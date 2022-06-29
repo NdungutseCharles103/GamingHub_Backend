@@ -23,3 +23,5 @@ class groupRouter {
         this._router.get('/user/:user', this._controller.getGroupsByUser);
     }
 }
+
+export default new groupRouter().router;
