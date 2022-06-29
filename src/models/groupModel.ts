@@ -9,6 +9,18 @@ const groupSchema = new mongoose.Schema({
         type: Number,
         default: 1
     },
+    description: {
+        type: String,
+        required: true,
+    },
+    admins: {
+        type: Array,
+        required: true,
+    },
+    image: {
+        type: String,
+        required: true,
+    },
     posts: {
         type: Number,
         default: 0
