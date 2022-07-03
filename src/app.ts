@@ -5,7 +5,9 @@ import ErrorHandler from './middlewares/ErrorHandler';
 import bodyParser from 'body-parser';
 import mongoose, { ConnectOptions } from 'mongoose';
 import cors from 'cors';
-
+import { Swaggiffy } from 'swaggiffy';
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger.json");
 
 dotenv.config({
     path: '.env'
@@ -42,6 +44,7 @@ server.app.use((err: ErrorHandler, _req: Request, res: Response, _next: NextFunc
     }
 }
 );
+server.app.use("/swagger-ui.html", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 server.app.use('/api', server.router);
 
@@ -63,3 +66,5 @@ mongoose
   )
   .catch((error) => console.log(`${error} did not connect`));
 })();
+
+// new Swaggiffy().setupExpress(server.app).swaggiffy();

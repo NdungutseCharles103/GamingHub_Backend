@@ -1,0 +1,6 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a backend for infinity app"
+    }
+}

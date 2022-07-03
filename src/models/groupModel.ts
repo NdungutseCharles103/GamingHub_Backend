@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+// const { registerSchema } = require('swaggiffy');
 
 const groupSchema = new mongoose.Schema({
     name: {
@@ -26,5 +27,7 @@ const groupSchema = new mongoose.Schema({
         default: 0
     }
 })
+
+// registerSchema('Group', groupSchema, { orm: 'mongoose' });
 
 export default mongoose.model('Group', groupSchema);

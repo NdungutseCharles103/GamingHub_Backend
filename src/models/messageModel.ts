@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+// const { registerSchema } = require('swaggiffy');
 
 const messageSchema = new mongoose.Schema({
     author: {
@@ -26,5 +27,6 @@ const messageSchema = new mongoose.Schema({
         required: true
     }
 })
+// registerSchema('Product', messageSchema, { orm: 'mongoose' });
 
 export default mongoose.model("Message", messageSchema);

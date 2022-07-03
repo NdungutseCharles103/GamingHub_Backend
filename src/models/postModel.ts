@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+// const { registerSchema } = require('swaggiffy');
 
 const postSchema = new mongoose.Schema({
     Text: {
@@ -30,5 +31,6 @@ const postSchema = new mongoose.Schema({
     }
 }
 );
+// registerSchema('Post', postSchema, { orm: 'mongoose' });
 
 export default mongoose.model('Post', postSchema);

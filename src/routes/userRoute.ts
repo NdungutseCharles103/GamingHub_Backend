@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import userController from '../controllers/userController';
 import authorization from '../middlewares/authorization';
+import { registerDefinition } from 'swaggiffy';
 
 class userRouter {
     private _router = Router();
@@ -26,5 +27,7 @@ class userRouter {
         this._router.delete('/:id', this._auth, this._controller.deleteUser);
     }
 }
+
+registerDefinition(new userRouter().router, { tags: 'Users' });
 
 export = new userRouter().router;
