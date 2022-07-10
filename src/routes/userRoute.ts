@@ -28,6 +28,6 @@ class userRouter {
     }
 }
 
-registerDefinition(new userRouter().router, { tags: 'Users' });
+registerDefinition(new userRouter().router, { tags: 'Users', mappedSchema: 'Users', basePath: '/user' });
 
 export = new userRouter().router;

@@ -3,6 +3,7 @@ import userRouter from './userRoute';
 import postRouter from './postRoute';
 import messageRouter from './messageRoute';
 import groupRouter from './groupRoute';
+import statsRouter from './statsRoute';
 
 class MasterRouter {
   private _router = Router();
@@ -10,6 +11,7 @@ class MasterRouter {
   private _postRoute = postRouter;
   private _messageRoute = messageRouter;
   private _groupRoute = groupRouter;
+  private _statsRoute = statsRouter;
 
   get router() {
     return this._router;
@@ -24,6 +26,7 @@ class MasterRouter {
     this._router.use('/post', this._postRoute);
     this._router.use('/message', this._messageRoute);
     this._router.use('/group', this._groupRoute);
+    this._router.use('/stats', this._statsRoute);
   }
 }
 
