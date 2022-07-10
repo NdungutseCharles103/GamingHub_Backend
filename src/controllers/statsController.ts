@@ -10,6 +10,15 @@ class StatsController {
             next(error);
         }
     }
+
+    async postVisitor(_req: Request, res: Response, next: NextFunction) {
+        try {
+            const visitor = await Visitor.create(_req.body);
+            res.status(201).json(visitor);
+        } catch (error) {
+            next(error);
+        }
+    }
 }
 
 export default new StatsController();

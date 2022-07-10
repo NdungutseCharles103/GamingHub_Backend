@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { registerSchema } from 'swaggiffy';
+// import { registerSchema } from 'swaggiffy';
 
 const visitorSchema = new mongoose.Schema({
     navigator: {
@@ -12,6 +12,6 @@ const visitorSchema = new mongoose.Schema({
         default: Date.now
     }
 })
-registerSchema('Visitor', visitorSchema, { orm: 'mongoose' })
+// registerSchema('Visitor', visitorSchema, { orm: 'mongoose' })
 
 export default mongoose.model("Visitor", visitorSchema);

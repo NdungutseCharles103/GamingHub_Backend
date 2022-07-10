@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { registerSchema } from 'swaggiffy';
+// import { registerSchema } from 'swaggiffy';
 
 const UserSchema = new mongoose.Schema({
     name: {
@@ -37,6 +37,6 @@ const UserSchema = new mongoose.Schema({
     }
 }
 );
-registerSchema('User', UserSchema, { orm: 'mongoose' })
+// registerSchema('User', UserSchema, { orm: 'mongoose' })
 
 export default mongoose.model("User", UserSchema);
