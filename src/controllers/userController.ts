@@ -25,6 +25,11 @@ class userController {
     async createUser(req: Request, res: Response, next: NextFunction) {
         console.log(req.body);
         const { name, email, password } = req.body
+        const emailExists = await User.findOne({ email: email });
+        if (emailExists) {
+            res.status(400).json({ message: "Email already exists" });
+            return
+        }
         const newUser = new User({ name,  email, password })
 
         try {

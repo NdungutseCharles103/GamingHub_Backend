@@ -31,6 +31,10 @@ const UserSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    friends: {
+        type: Array,
+        default: []
+    },
     createdAt: {
         type: Date,
         default: Date.now
