@@ -1,13 +1,15 @@
 import { NextFunction, Request, Response } from 'express';
-import ErrorHandler from '../middlewares/ErrorHandler';
 import Post from '../models/postModel';
+import { UploadApiResponse, v2 as cloudinary } from 'cloudinary'
 
 class PostController {
 
-    async create(req: Request, res: Response) {
-        const post = new Post(req.body);
+    async create(req: Request , res: Response) {
+        // const post = new Post(req.body);
+        const { text, creatorId,tags, pictures, videos } = req.body;
+        const response: UploadApiResponse = await cloudinary.uploader.upload(pictures[0], { folder: 'posts' });
         try {
-            const savedPost = await post.save();
+            const savedPost = await Post.create({ text, creatorId, tags, pictures: [response.url], videos });
             res.status(201).json(savedPost);
         } catch (error) {
             console.log(error);

@@ -2,27 +2,46 @@ import User from "../models/userModel";
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import ErrorHandler from "../middlewares/ErrorHandler";
+import bcrypt from "bcrypt";
 
 class userController {
-    async getUsers(_req: Request, res: Response, next: NextFunction) {
+    async getUsers(_req: Request, res: Response) {
         try {
             const users = await User.find();
             res.status(200).json(users);
         } catch (error) {
-            next(error);
+            
         }
     }
 
-    async getUser(req: Request, res: Response, next: NextFunction) {
+    async getUser(req: Request, res: Response) {
         try {
             const user = await User.findById(req.params.id);
             res.status(200).json(user);
         } catch (error) {
-            next(error);
+            
         }
     }
 
-    async createUser(req: Request, res: Response, next: NextFunction) {
+    async getUserByEmail (req: Request, res: Response) {
+        try {
+            const user = await User.findOne({ email: req.params.email });
+            res.status(200).json(user);
+        } catch (error) {
+            
+        }
+    }
+
+    async getUserByGoogleId(req: Request, res: Response) {
+        try {
+            const user = await User.findOne({ googleId: req.params.id });
+            res.status(200).json(user);
+        } catch (error) {
+            
+        }
+    }
+
+    async createUser(req: Request, res: Response) {
         console.log(req.body);
         const { name, email, password } = req.body
         const emailExists = await User.findOne({ email: email });
@@ -30,76 +49,94 @@ class userController {
             res.status(400).json({ message: "Email already exists" });
             return
         }
-        const newUser = new User({ name,  email, password })
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        const newUser = new User({ name,  email, password: hashedPassword })
 
         try {
             const savedUser = await newUser.save();
-            res.status(201).json(savedUser);
+            res.status(201).json({user: savedUser, message: "User created"});
         } catch (error) {
-            next(error);
+            res.status(500).json({message: "Something went wrong"});
+            
         }
     }
 
-    async registerWithGoogle(req: Request, res: Response, next: NextFunction) {
+    async registerWithGoogle(req: Request, res: Response) {
         console.log(req.body);
-        const { name, email, profilePicture } = req.body;
-        const newUser = new User({ name, email, profilePicture });
+        const { name, email, picture, googleId } = req.body;
+        const emailExists = await User.findOne({ email: email });
+        if (emailExists) {
+            res.status(400).json({ message: "Email already exists" });
+            return
+        }
+        const newUser = new User({ name, email, picture, googleId });
         try {
-            const savedUser = await newUser.save();
-            res.status(201).json(savedUser);
+            await newUser.save();
+            res.status(201).json({ message: "User created" });
         } catch (error) {
-            next(error);
+            res.status(500).json({message: "Something went wrong"});
+            
         }
     }
 
-    async updateUser(req: Request, res: Response, next: NextFunction) {
+    async updateUser(req: Request, res: Response) {
         try {
             const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
             res.status(200).json(user);
         } catch (error) {
-            next(error);
+            res.status(500).json({message: "Something went wrong"});
+            
         }
     }
 
-    async deleteUser(req: Request, res: Response, next: NextFunction) {
+    async deleteUser(req: Request, res: Response) {
         try {
             const user = await User.findByIdAndDelete(req.params.id);
             res.status(200).json(user);
         } catch (error) {
-            next(error);
+            res.status(500).json({message: "Something went wrong"});
+            
         }
     }
 
-    async login(req: Request, res: Response, next: NextFunction) {
+    async login(req: Request, res: Response) {
         try {
             const user = await User.findOne({ email: req.body.email });
             if (!user) {
-                throw new ErrorHandler(401, "User not found");
+                res.json({ message: "User not found"});
+                return;
             }
-            const isValidPassword = await User.findOne({ password: req.body.password });
+            const isValidPassword =((pass=user?.password || 'unknown')=> {
+               return bcrypt.compare(req.body.password, pass);
+            })()
             if (!isValidPassword) {
-                throw new ErrorHandler(401, "Invalid password");
+                res.json({ message: "Invalid password"});
+                return;
             }
             const token = ((secret = process.env.JWT_SECRET || 'unknown') => {
-                jwt.sign({ id: user._id, email: user.email, name: user.name },
+                jwt.sign({ id: user?._id, email: user?.email, name: user?.name },
                     secret, { expiresIn: "3d" });
             })();
 
             res.status(200).json({ token });
         } catch (error) {
-            next(error);
+            res.status(500).json({message: "Something went wrong"});
+            
         }
     }
 
-    async loginGoogle(req: Request, res: Response, next: NextFunction) {
+    async loginGoogle(req: Request, res: Response) {
         try {
             const user = await User.findOne({ email: req.body.email });
             if (!user) {
-                res.status(401).json({ message: "User not found" });
+                res.status(400).json({ message: "User not found" });
+                return
             }
             res.status(200).json({ message: "Login success" });
         } catch (error) {
-            next(error);
+            res.status(500).json({message: "Something went wrong"});
+            
         }
     }
 }

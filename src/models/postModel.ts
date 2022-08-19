@@ -2,11 +2,11 @@ import mongoose from 'mongoose';
 // const { registerSchema } = require('swaggiffy');
 
 const postSchema = new mongoose.Schema({
-    Text: {
+    text: {
         type: String,
         required: true
     },
-    creatorDetails: {
+    creatorId: {
         type: Object,
         required: true
     },

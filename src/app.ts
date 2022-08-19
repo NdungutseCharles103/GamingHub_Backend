@@ -6,10 +6,17 @@ import bodyParser from 'body-parser';
 import mongoose, { ConnectOptions } from 'mongoose';
 import cors from 'cors';
 // import { Swaggiffy } from 'swaggiffy';
+import { v2 as cloudinary } from 'cloudinary'
 
 dotenv.config({
     path: '.env'
 });
+
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET,
+  });
 
 class Server {
     public app = express();
@@ -22,7 +29,7 @@ server.app.use(bodyParser.json());
 server.app.use(cors({
     origin: '*',
     methods: 'GET,POST,PUT,DELETE',
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin', 'Access-Control-Allow-Origin', 'Access-Control-Allow-Headers', 'Access-Control-Allow-Methods', 'Access-Control-Allow-Credentials'],
+    allowedHeaders: ['Content-Type','provider', 'Authorization', 'X-Requested-With', 'Accept', 'Origin', 'Access-Control-Allow-Origin', 'Access-Control-Allow-Headers', 'Access-Control-Allow-Methods', 'Access-Control-Allow-Credentials'],
 }));
 
 server.app.use((err: ErrorHandler, _req: Request, res: Response, _next: NextFunction) => {
