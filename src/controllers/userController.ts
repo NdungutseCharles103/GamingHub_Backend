@@ -102,6 +102,7 @@ class userController {
 
     async login(req: Request, res: Response) {
         try {
+            console.log(req.body);
             const user = await User.findOne({ email: req.body.email });
             if (!user) {
                 res.json({ message: "User not found"});
@@ -118,7 +119,7 @@ class userController {
               return  jwt.sign({ id: user?._id, email: user?.email, name: user?.name },
                     secret, { expiresIn: "3d" });
             })();
-
+            console.log(token);
             res.status(200).json({ message: "Login success", token: token });
         } catch (error) {
             res.status(500).json({message: "Something went wrong"});
