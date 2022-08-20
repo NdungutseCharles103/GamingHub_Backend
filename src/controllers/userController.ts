@@ -83,7 +83,7 @@ class userController {
     async updateUser(req: Request, res: Response) {
         try {
             const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-            res.status(200).json(user);
+            res.status(201).json(user);
         } catch (error) {
             res.status(500).json({message: "Something went wrong"});
             
@@ -115,11 +115,11 @@ class userController {
                 return;
             }
             const token = ((secret = process.env.JWT_SECRET || 'unknown') => {
-                jwt.sign({ id: user?._id, email: user?.email, name: user?.name },
+              return  jwt.sign({ id: user?._id, email: user?.email, name: user?.name },
                     secret, { expiresIn: "3d" });
             })();
 
-            res.status(200).json({ token });
+            res.status(200).json({ message: "Login success", token: token });
         } catch (error) {
             res.status(500).json({message: "Something went wrong"});
             
@@ -133,7 +133,12 @@ class userController {
                 res.status(400).json({ message: "User not found" });
                 return
             }
-            res.status(200).json({ message: "Login success" });
+            const token = ((secret = process.env.JWT_SECRET || 'unknown') => {
+               return jwt.sign({ id: user?._id, email: user?.email, name: user?.name },
+                    secret, { expiresIn: "31d" });
+            })();
+            console.log(token);
+            res.status(200).json({ message: "Login success", token: token });
         } catch (error) {
             res.status(500).json({message: "Something went wrong"});
             
