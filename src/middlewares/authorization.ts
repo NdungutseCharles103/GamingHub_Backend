@@ -5,12 +5,12 @@ import User from "../models/userModel";
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 
-import serviceAccount from './firebase.json';
-const account: any = serviceAccount;
+// import serviceAccount from './firebase.json';
+// const account: any = serviceAccount;
 
-admin.initializeApp({
-    credential: admin.credential.cert(account)
-  });
+// admin.initializeApp({
+//     credential: admin.credential.cert(account)
+//   });
 class Authorization {
     public async verifyToken(req: any, _res: Response, next: NextFunction) {
         const token = req.headers.authorization;
