@@ -53,7 +53,7 @@ server.app.use((err: ErrorHandler, _req: Request, res: Response, _next: NextFunc
 server.app.use('/api', server.router);
 
 server.app.get('/', (_req: Request, res: Response) => {
-    res.send('welcome to the server');
+    res.send('welcome to infinity');
 }
 );
 
