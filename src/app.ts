@@ -28,7 +28,6 @@ const server = new Server();
 server.app.use(bodyParser.json());
 server.app.use(cors({
     origin: '*',
-    methods: 'GET,POST,PUT,DELETE',
     allowedHeaders: ['Content-Type','provider', 'Authorization', 'X-Requested-With', 'Accept', 'Origin', 'Access-Control-Allow-Origin', 'Access-Control-Allow-Headers', 'Access-Control-Allow-Methods', 'Access-Control-Allow-Credentials'],
 }));
 

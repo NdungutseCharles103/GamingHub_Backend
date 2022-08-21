@@ -117,7 +117,7 @@ class userController {
             }
             const token = ((secret = process.env.JWT_SECRET || 'unknown') => {
               return  jwt.sign({ id: user?._id, email: user?.email, name: user?.name },
-                    secret, { expiresIn: "3d" });
+                    secret);
             })();
             console.log(token);
             res.status(200).json({ message: "Login success", token: token });
@@ -136,7 +136,7 @@ class userController {
             }
             const token = ((secret = process.env.JWT_SECRET || 'unknown') => {
                return jwt.sign({ id: user?._id, email: user?.email, name: user?.name },
-                    secret, { expiresIn: "31d" });
+                    secret);
             })();
             console.log(token);
             res.status(200).json({ message: "Login success", token: token });

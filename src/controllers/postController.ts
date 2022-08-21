@@ -4,13 +4,24 @@ import { UploadApiResponse, v2 as cloudinary } from 'cloudinary'
 
 class PostController {
 
-    async create(req: Request , res: Response) {
-        // const post = new Post(req.body);
+    async create(req: Request , _res: Response) {
+        console.log(req.body);
         const { text, creatorId,tags, pictures, videos } = req.body;
-        const response: UploadApiResponse = await cloudinary.uploader.upload(pictures[0], { folder: 'posts' });
+        let response: any = {};
         try {
-            const savedPost = await Post.create({ text, creatorId, tags, pictures: [response.url], videos });
-            res.status(201).json(savedPost);
+            if(pictures.length > 0 || videos.length > 0) {
+                console.log("Uploading images and videos");
+                // const uploads: UploadApiResponse[] = [];
+                // for (let i = 0; i < pictures.length; i++) {
+                //     const picture = pictures[i];
+                //     const upload = await cloudinary.uploader.upload(picture, { folder: 'posts' });
+                //     uploads.push(upload);
+                // }
+                response = await cloudinary.uploader.upload(pictures[0], { folder: 'posts' });
+                console.log(response);
+            }
+            const savedPost = await Post.create({ text, creatorId, tags, pictures: [response?.url], videos });
+            _res.status(201).json({message: "Created", data: savedPost});
         } catch (error) {
             console.log(error);
         }
