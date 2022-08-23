@@ -16,6 +16,7 @@ cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.API_KEY,
     api_secret: process.env.API_SECRET,
+    secure: true
   });
 
 class Server {
@@ -28,7 +29,8 @@ const server = new Server();
 server.app.use(bodyParser.json());
 server.app.use(cors({
     origin: '*',
-    allowedHeaders: ['Content-Type','provider', 'Authorization', 'X-Requested-With', 'Accept', 'Origin', 'Access-Control-Allow-Origin', 'Access-Control-Allow-Headers', 'Access-Control-Allow-Methods', 'Access-Control-Allow-Credentials'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+    // allowedHeaders: ['Content-Type','provider', 'Authorization', 'X-Requested-With', 'Accept', 'Origin', 'Access-Control-Allow-Origin', 'Access-Control-Allow-Headers', 'Access-Control-Allow-Methods', 'Access-Control-Allow-Credentials'],
 }));
 
 server.app.use((err: ErrorHandler, _req: Request, res: Response, _next: NextFunction) => {

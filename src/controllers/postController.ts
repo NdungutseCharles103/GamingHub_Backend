@@ -1,26 +1,16 @@
 import { NextFunction, Request, Response } from 'express';
 import Post from '../models/postModel';
-import { UploadApiResponse, v2 as cloudinary } from 'cloudinary'
+// import { UploadApiResponse, v2 as cloudinary } from 'cloudinary'
 
 class PostController {
 
     async create(req: Request , _res: Response) {
         console.log(req.body);
+
         const { text, creatorId,tags, pictures, videos } = req.body;
-        let response: any = {};
+        const pic = pictures[0];
         try {
-            if(pictures.length > 0 || videos.length > 0) {
-                console.log("Uploading images and videos");
-                // const uploads: UploadApiResponse[] = [];
-                // for (let i = 0; i < pictures.length; i++) {
-                //     const picture = pictures[i];
-                //     const upload = await cloudinary.uploader.upload(picture, { folder: 'posts' });
-                //     uploads.push(upload);
-                // }
-                response = await cloudinary.uploader.upload(pictures[0], { folder: 'posts' });
-                console.log(response);
-            }
-            const savedPost = await Post.create({ text, creatorId, tags, pictures: [response?.url], videos });
+            const savedPost = await Post.create({ text, creatorId, tags, pictures: [pic], videos });
             _res.status(201).json({message: "Created", data: savedPost});
         } catch (error) {
             console.log(error);
