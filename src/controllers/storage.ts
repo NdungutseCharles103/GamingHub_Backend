@@ -1,25 +1,13 @@
-import { CloudinaryStorage } from "multer-storage-cloudinary";
 import { v2 as cloudinary } from 'cloudinary'
-import multer from 'multer';
+import dotenv from 'dotenv';
 
- class CloudStorage {
-    public folder: string;
-    public formats: string[];
-    public storage: CloudinaryStorage;
-    public upload: multer.Multer;
+dotenv.config();
 
-    constructor(folder: string, formats: string[]) {
-        this.folder = folder;
-        this.formats = formats;
-        this.storage = new CloudinaryStorage({
-            cloudinary: cloudinary,
-            params: {
-                folder: this.folder,
-                allowedFormats: this.formats,
-            } as any,
-        });
-        this.upload = multer({ storage: this.storage });
-    } 
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET,
+    secure: true
+})
 
-}
-export default CloudStorage;
+export default cloudinary;

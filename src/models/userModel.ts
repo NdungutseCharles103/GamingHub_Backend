@@ -17,7 +17,7 @@ const UserSchema = new mongoose.Schema({
     },
     picture:{
         type: String,
-        default: 'https://cdn-icons.flaticon.com/png/512/552/premium/552909.png?token=exp=1656011523~hmac=d27c22eae779fdba949f3a8433f6fbcc'
+        default: 'https://cdn-icons-png.flaticon.com/512/149/149071.png'
     },
     savedGames: {
         type: Array,
