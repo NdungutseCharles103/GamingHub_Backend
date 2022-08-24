@@ -8,6 +8,7 @@ class userController {
     async getUsers(_req: Request, res: Response) {
         try {
             const users = await User.find();
+            for (let user of users) delete user.password;
             res.status(200).json(users);
         } catch (error) {
             
@@ -17,6 +18,7 @@ class userController {
     async getUser(req: Request, res: Response) {
         try {
             const user = await User.findById(req.params.id);
+            delete user?.password
             res.status(200).json(user);
         } catch (error) {
             
@@ -26,6 +28,7 @@ class userController {
     async getUserByEmail (req: Request, res: Response) {
         try {
             const user = await User.findOne({ email: req.params.email });
+            delete user?.password
             res.status(200).json(user);
         } catch (error) {
             
@@ -35,6 +38,7 @@ class userController {
     async getUserByGoogleId(req: Request, res: Response) {
         try {
             const user = await User.findOne({ googleId: req.params.id });
+            delete user?.password
             res.status(200).json(user);
         } catch (error) {
             
