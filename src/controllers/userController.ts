@@ -145,6 +145,25 @@ class userController {
             
         }
     }
+
+    async authorize(_req: Request, res: Response) {
+        const token = _req.params.token;
+        console.log(token);
+        if (!token) {
+            res.status(403).json({ message: "No token provided" });
+            return
+        }
+        try {
+            const decoded = ((secret = process.env.JWT_SECRET || 'unknown') => {
+                jwt.verify(token, secret);
+            })();
+            res.status(200).json({ authorized: true, decoded: decoded });
+        } catch (err) {
+            console.log(err);
+            res.status(403).json({ message: "Invalid token", authorized: false });
+        }
+    }
+
 }
 
 export = new userController();
